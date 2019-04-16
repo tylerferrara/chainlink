@@ -6,6 +6,7 @@
     "evm/box",
     "operator_ui",
     "integration",
+    "explorer",
     "examples/*"
   ],
   "scripts": {
@@ -14,6 +15,7 @@
     "lint:styleguide": "eslint --color --ext .js --ext .jsx --ext .ts --ext .tsx ./styleguide",
     "lint:operator-ui": "eslint --color --ext .js --ext .jsx --ext .ts --ext .tsx ./gui",
     "lint:evm": "eslint --color --ext .js --ext .jsx --ext .ts --ext .tsx ./evm",
+    "lint:explorer": "eslint --color --ext .js --ext .jsx --ext .ts --ext .tsx ./explorer",
     "lint:examples": "eslint --color --ext .js --ext .jsx --ext .ts --ext .tsx ./examples"
   },
   "devDependencies": {
