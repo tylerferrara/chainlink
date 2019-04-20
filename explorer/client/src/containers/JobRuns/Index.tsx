@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators, Dispatch } from 'redux'
+import { bindActionCreators, Dispatch, Action } from 'redux'
 import build from 'redux-object'
 import {
   createStyles,
@@ -83,7 +83,7 @@ const mapStateToProps = (state: IState) => ({
   count: jobRunsCountSelector(state)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) =>
+const mapDispatchToProps = (dispatch: Dispatch<Action<any>>) =>
   bindActionCreators({ getJobRuns }, dispatch)
 
 const ConnectedIndex = connect(
