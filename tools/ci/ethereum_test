@@ -31,6 +31,7 @@ else
   launch_gethnet
 fi
 
+launch_explorer
 launch_chainlink
 deploy_oracle_and_linktoken_contracts
 launch_echo_server
