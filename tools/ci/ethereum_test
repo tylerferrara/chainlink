@@ -31,22 +31,23 @@ else
   launch_gethnet
 fi
 
+launch_explorer
 launch_chainlink
-deploy_oracle_and_linktoken_contracts
-launch_echo_server
-chainlink login --file ./tools/clroot/apicredentials
+#deploy_oracle_and_linktoken_contracts
+#launch_echo_server
+#chainlink login --file ./tools/clroot/apicredentials
 
 heading 'Running tests...'
 
 pushd integration >/dev/null
 
-./runlog_test
-./ethlog_test
+#./runlog_test
+#./ethlog_test
 
 title 'End to end tests.'
 
 set -o pipefail
-yarn cross-env NODE_ENV=test yarn jest integration/ --runInBand | tee e2e.tests.log
+yarn cross-env NODE_ENV=test yarn jest integration/ --runInBand | tee $SRCROOT/integration/e2e.tests.log
 set +o pipefail
 
 title 'All tests passed.'
