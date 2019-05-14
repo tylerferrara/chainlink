@@ -109,6 +109,7 @@ describe('End to end', () => {
     await pupExpect(page).toMatch(runId)
     await pupExpect(page).toClick('a', { text: runId })
 
+    await page.screenshot({ path: './expect-complete.png', fullPage: true }) // FIXME remove once passing
     await pupExpect(page).toMatchElement('h5', { text: 'Complete' })
   })
 })
