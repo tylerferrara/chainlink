@@ -15,13 +15,13 @@ let job = {
 }
 
 module.exports = clmigration(async function(truffleDeployer) {
-  await request.post(sessionsUrl, { json: credentials })
-  let body = await request.post(specsUrl, { json: job })
-  console.log(`Deploying Consumer Contract with JobID ${body.data.id}`)
+  //await request.post(sessionsUrl, { json: credentials })
+  //let body = await request.post(specsUrl, { json: job })
+  //console.log(`Deploying Consumer Contract with JobID ${body.data.id}`)
   await truffleDeployer.deploy(
     RunLog,
     LinkToken.address,
     Oracle.address,
-    body.data.id
+    `0x6a4a32a5de624bd8b42307033b0c8039`
   )
 })
