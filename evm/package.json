@@ -4,6 +4,8 @@
   "license": "MIT",
   "scripts": {
     "build": "truffle build",
+    "lint": "eslint --color --config ../.eslintrc --ext .js --ext .jsx --ext .ts --ext .tsx .",
+    "lint:fix": "eslint --fix --color --config ../.eslintrc --ext .js --ext .jsx --ext .ts --ext .tsx .",
     "test": "truffle test",
     "flatten": "../tools/bin/flatten-testnet"
   },

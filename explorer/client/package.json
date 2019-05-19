@@ -16,7 +16,8 @@
     "start": "PORT=3001 craco start",
     "build:clean": "rm -rf build",
     "build": "craco build",
-    "lint": "eslint . --color",
+    "lint": "eslint --color --config ../../.eslintrc --ext .js --ext .jsx --ext .ts --ext .tsx .",
+    "lint:fix": "eslint --fix --color --config ../../.eslintrc --ext .js --ext .jsx --ext .ts --ext .tsx .",
     "test": "react-scripts test",
     "test-ci": "CI=true react-scripts test",
     "autoinstall": "md5sum -c .yarn.lock.md5 || yarn install && md5sum yarn.lock > .yarn.lock.md5"
