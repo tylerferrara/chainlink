@@ -1,6 +1,6 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import Tooltip from '@material-ui/core/Tooltip'
+import MuiTooltip from '@material-ui/core/Tooltip'
 
 const styles = theme => ({
   lightTooltip: {
@@ -11,12 +11,12 @@ const styles = theme => ({
   }
 })
 
-const StyledTooltip = ({ title, children, classes }) => {
+const Tooltip = ({ title, children, classes }) => {
   return (
-    <Tooltip title={title} classes={{ tooltip: classes.lightTooltip }}>
+    <MuiTooltip title={title} classes={{ tooltip: classes.lightTooltip }}>
       {children}
-    </Tooltip>
+    </MuiTooltip>
   )
 }
 
-export default withStyles(styles)(StyledTooltip)
+export default withStyles(styles)(Tooltip)

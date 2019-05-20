@@ -1,6 +1,6 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import PaddedCard from 'components/PaddedCard'
+import PaddedCard from '@chainlink/styleguide/components/PaddedCard'
 import StatusIcon from 'components/JobRuns/StatusIcon'
 import Typography from '@material-ui/core/Typography'
 import classNames from 'classnames'

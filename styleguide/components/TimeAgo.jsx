@@ -1,15 +1,15 @@
 import React from 'react'
 import TimeAgoNoTooltip from 'react-time-ago/no-tooltip'
-import StyledTooltip from 'components/Tooltip'
+import Tooltip from './Tooltip'
 
 const TimeAgo = ({ children }) => (
-  <StyledTooltip title={children}>
+  <Tooltip title={children}>
     <span>
       <TimeAgoNoTooltip tooltip={false}>
         {Date.parse(children)}
       </TimeAgoNoTooltip>
     </span>
-  </StyledTooltip>
+  </Tooltip>
 )
 
 export default TimeAgo
