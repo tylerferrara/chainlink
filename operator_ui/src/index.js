@@ -5,9 +5,8 @@ import JavascriptTimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
 import { AppContainer } from 'react-hot-loader'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
-
-import App from 'App'
-import theme from 'theme'
+import theme from '@chainlink/styleguide/theme'
+import App from './App'
 
 promiseFinally.shim(Promise)
 
