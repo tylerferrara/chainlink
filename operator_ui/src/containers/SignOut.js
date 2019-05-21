@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { receiveSignoutSuccess } from 'actions'
+import { receiveSignoutSuccess } from '../actions'
 import { connect } from 'react-redux'
 import { useHooks, useEffect } from 'use-react-hooks'
 

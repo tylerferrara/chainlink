@@ -4,9 +4,9 @@ import { Prompt } from 'react-router-dom'
 import * as formik from 'formik'
 import { withStyles } from '@material-ui/core/styles'
 import { TextField, Grid } from '@material-ui/core'
-import Button from 'components/Button'
-import { set, get } from 'utils/storage'
 import normalizeUrl from 'normalize-url'
+import Button from '../../components/Button'
+import { set, get } from '../../utils/storage'
 
 const styles = theme => ({
   textfield: {
@@ -144,7 +144,7 @@ const formikOpts = {
   handleSubmit(values, { props, setSubmitting }) {
     try {
       values.url = normalizeUrl(values.url)
-    } catch(exception) {
+    } catch (exception) {
       values.url = ''
     }
     props.onSubmit(values, props.onSuccess, props.onError)

@@ -4,9 +4,9 @@ import universal from 'react-universal-component'
 import { Switch } from 'react-router-dom'
 import { hot } from 'react-hot-loader'
 import { withStyles } from '@material-ui/core/styles'
-import Header from 'containers/Header'
-import Loading from 'components/Loading'
-import Notifications from 'containers/Notifications'
+import Header from './containers/Header'
+import Loading from './components/Loading'
+import Notifications from './containers/Notifications'
 import PrivateRoute from './PrivateRoute'
 
 // Asynchronously load routes that are chunked via code-splitting

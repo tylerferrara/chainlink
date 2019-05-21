@@ -2,10 +2,13 @@
   "compilerOptions": {
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2015", "dom"],
+    "lib": [
+      "es2015",
+      "dom"
+    ],
     "moduleResolution": "node",
     "skipLibCheck": true,
-    "isolatedModules": false,
+    "isolatedModules": true,
     "noEmit": true,
     "allowJs": true,
     "jsx": "preserve",
@@ -13,5 +16,11 @@
     "removeComments": false,
     "strict": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
   },
+  "include": [
+    "src"
+  ]
 }

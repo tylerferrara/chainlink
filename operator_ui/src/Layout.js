@@ -3,11 +3,11 @@ import { Root, Routes } from 'react-static'
 import universal from 'react-universal-component'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import PrivateRoute from './PrivateRoute'
-import Private from './Private'
-import Loading from 'components/Loading'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import PrivateRoute from './PrivateRoute'
+import Private from './Private'
+import Loading from './components/Loading'
 
 // Asynchronously load routes that are chunked via code-splitting
 // 'import' as a function must take a string. It can't take a variable.

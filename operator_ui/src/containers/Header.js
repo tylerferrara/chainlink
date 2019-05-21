@@ -16,12 +16,12 @@ import Drawer from '@material-ui/core/Drawer'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import Portal from '@material-ui/core/Portal'
-import LoadingBar from 'components/LoadingBar'
-import MainLogo from 'components/Logos/Main'
-import AvatarMenu from 'components/AvatarMenu'
-import { submitSignOut } from 'actions'
-import fetchCountSelector from 'selectors/fetchCount'
 import ReactResizeDetector from 'react-resize-detector'
+import LoadingBar from '../components/LoadingBar'
+import MainLogo from '../components/Logos/Main'
+import AvatarMenu from '../components/AvatarMenu'
+import { submitSignOut } from '../actions'
+import fetchCountSelector from '../selectors/fetchCount'
 
 const drawerWidth = 240
 

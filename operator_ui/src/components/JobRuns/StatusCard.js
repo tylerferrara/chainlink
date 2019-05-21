@@ -1,10 +1,10 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import PaddedCard from '@chainlink/styleguide/components/PaddedCard'
-import StatusIcon from 'components/JobRuns/StatusIcon'
 import Typography from '@material-ui/core/Typography'
 import classNames from 'classnames'
 import { titleCase } from 'change-case'
+import PaddedCard from '@chainlink/styleguide/components/PaddedCard'
+import StatusIcon from '../../components/JobRuns/StatusIcon'
 
 const styles = theme => ({
   completed: {

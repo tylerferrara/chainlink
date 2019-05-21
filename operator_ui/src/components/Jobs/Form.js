@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import * as formik from 'formik'
 import { withStyles } from '@material-ui/core/styles'
-import Button from 'components/Button'
 import { TextField, Grid } from '@material-ui/core'
 import { Prompt } from 'react-router-dom'
-import { set, get } from 'utils/storage'
+import Button from '../../components/Button'
+import { set, get } from '../../utils/storage'
 
 const styles = theme => ({
   card: {

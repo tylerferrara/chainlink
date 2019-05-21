@@ -3,9 +3,9 @@ import {
   RECEIVE_SIGNIN_FAIL,
   NOTIFY_SUCCESS,
   NOTIFY_ERROR
-} from 'actions'
-import { set } from 'utils/storage'
-import { BadRequestError } from 'errors'
+} from '../../../actions'
+import { set } from '../../../utils/storage'
+import { BadRequestError } from '../../../errors'
 
 const initialState = {
   errors: [],

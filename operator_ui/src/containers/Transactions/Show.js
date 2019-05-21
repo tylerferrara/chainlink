@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { useHooks, useEffect } from 'use-react-hooks'
 import KeyValueList from '@chainlink/styleguide/components/KeyValueList'
-import Content from 'components/Content'
-import { fetchTransaction } from 'actions'
-import transactionSelector from 'selectors/transaction'
-import matchRouteAndMapDispatchToProps from 'utils/matchRouteAndMapDispatchToProps'
+import Content from '../../components/Content'
+import transactionSelector from '../../selectors/transaction'
+import matchRouteAndMapDispatchToProps from '../../utils/matchRouteAndMapDispatchToProps'
+import { fetchTransaction } from '../../actions'
 
 export const Show = useHooks(props => {
   useEffect(() => {

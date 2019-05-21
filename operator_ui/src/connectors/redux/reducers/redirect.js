@@ -1,4 +1,4 @@
-import { REDIRECT, MATCH_ROUTE } from 'actions'
+import { REDIRECT, MATCH_ROUTE } from '../../../actions'
 
 const initialState = {
   to: null

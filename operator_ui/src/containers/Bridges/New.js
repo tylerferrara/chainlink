@@ -6,11 +6,11 @@ import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Divider from '@material-ui/core/Divider'
 import Typography from '@material-ui/core/Typography'
-import Form from 'components/Bridges/Form'
-import ErrorMessage from 'components/Notifications/DefaultError'
-import Content from 'components/Content'
-import { createBridge } from 'actions'
-import matchRouteAndMapDispatchToProps from 'utils/matchRouteAndMapDispatchToProps'
+import Form from '../../components/Bridges/Form'
+import ErrorMessage from '../../components/Notifications/DefaultError'
+import Content from '../../components/Content'
+import matchRouteAndMapDispatchToProps from '../../utils/matchRouteAndMapDispatchToProps'
+import { createBridge } from '../../actions'
 
 const SuccessNotification = ({ id }) => {
   return (

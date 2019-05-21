@@ -1,8 +1,8 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
 import { createStyles, withStyles } from '@material-ui/core/styles'
-import StatusIcon from 'components/Icons/TaskStatus'
-import titleize from 'utils/titleize'
+import StatusIcon from '../../components/Icons/TaskStatus'
+import titleize from '../../utils/titleize'
 
 const styles = ({ spacing, palette }) =>
   createStyles({

@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Grid from '@material-ui/core/Grid'
-import StatusItem from 'components/JobRuns/StatusItem'
-import PrettyJson from 'components/PrettyJson'
 import capitalize from 'lodash/capitalize'
+import StatusItem from '../../components/JobRuns/StatusItem'
+import PrettyJson from '../../components/PrettyJson'
 
 const renderConfirmations = (confirmations, minimumConfirmations) => {
   if (minimumConfirmations) {

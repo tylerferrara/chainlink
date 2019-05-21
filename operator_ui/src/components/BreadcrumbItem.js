@@ -1,7 +1,7 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
-import Link from 'components/Link'
 import { withStyles } from '@material-ui/core/styles'
+import Link from '../../components/Link'
 
 const styles = theme => ({
   node: {

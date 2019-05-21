@@ -1,7 +1,7 @@
-import * as api from 'api'
-import { AuthenticationError } from 'errors'
 import { pascalCase } from 'change-case'
 import normalize from 'json-api-normalizer'
+import * as api from './api'
+import { AuthenticationError } from './errors'
 
 const createAction = type => ({ type: type })
 

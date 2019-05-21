@@ -1,12 +1,12 @@
 import 'isomorphic-unfetch'
-import formatRequestURI from 'utils/formatRequestURI'
+import formatRequestURI from './utils/formatRequestURI'
 import {
   AuthenticationError,
   BadRequestError,
   ServerError,
   UnknownResponseError
 } from './errors'
-import serializeBridgeType from 'api/serializers/bridgeType'
+import serializeBridgeType from './api/serializers/bridgeType'
 
 const formatURI = (path, query = {}) => {
   return formatRequestURI(path, query, {

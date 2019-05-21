@@ -1,5 +1,4 @@
 import React from 'react'
-import Link from 'components/Link'
 import PropTypes from 'prop-types'
 import Card from '@material-ui/core/Card'
 import Table from '@material-ui/core/Table'
@@ -9,8 +8,9 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import TablePagination from '@material-ui/core/TablePagination'
 import Typography from '@material-ui/core/Typography'
-import TableButtons, { FIRST_PAGE } from 'components/TableButtons'
 import { useHooks, useState, useEffect } from 'use-react-hooks'
+import TableButtons, { FIRST_PAGE } from '../../components/TableButtons'
+import Link from '../../components/Link'
 
 const renderFetching = () => (
   <TableRow>

@@ -14,8 +14,8 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
 import { grey } from '@material-ui/core/colors'
-import face from 'images/face.svg'
-import { submitSignOut } from 'actions'
+import face from '../images/face.svg'
+import { submitSignOut } from '../actions'
 
 const styles = theme => {
   return {

@@ -2,20 +2,20 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
-import RecentActivity from 'components/Dashboards/RecentActivity'
-import TokenBalanceCard from 'components/Cards/TokenBalance'
-import RecentlyCreatedJobs from 'components/Jobs/RecentlyCreated'
-import Footer from 'components/Footer'
-import Content from 'components/Content'
-import matchRouteAndMapDispatchToProps from 'utils/matchRouteAndMapDispatchToProps'
+import RecentActivity from '../../components/Dashboards/RecentActivity'
+import TokenBalanceCard from '../../components/Cards/TokenBalance'
+import RecentlyCreatedJobs from '../../components/Jobs/RecentlyCreated'
+import Footer from '../../components/Footer'
+import Content from '../../components/Content'
+import matchRouteAndMapDispatchToProps from '../../utils/matchRouteAndMapDispatchToProps'
 import {
   fetchRecentJobRuns,
   fetchRecentlyCreatedJobs,
   fetchAccountBalance
-} from 'actions'
-import accountBalanceSelector from 'selectors/accountBalance'
-import recentJobRunsSelector from 'selectors/recentJobRuns'
-import recentlyCreatedJobsSelector from 'selectors/recentlyCreatedJobs'
+} from '../../actions'
+import accountBalanceSelector from '../../selectors/accountBalance'
+import recentJobRunsSelector from '../../selectors/recentJobRuns'
+import recentlyCreatedJobsSelector from '../../selectors/recentlyCreatedJobs'
 import { useHooks, useEffect } from 'use-react-hooks'
 
 export const Index = useHooks(props => {

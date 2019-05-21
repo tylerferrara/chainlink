@@ -8,7 +8,7 @@ import TableRow from '@material-ui/core/TableRow'
 import SimpleListCard from '@chainlink/styleguide/components/Cards/SimpleList'
 import SimpleListCardItem from '@chainlink/styleguide/components/Cards/SimpleListItem'
 import TimeAgo from '@chainlink/styleguide/components/TimeAgo'
-import Link from 'components/Link'
+import Link from '../../components/Link'
 
 const styles = () => ({
   block: { display: 'block' },

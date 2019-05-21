@@ -5,7 +5,7 @@ import {
   REQUEST_BRIDGE,
   RECEIVE_BRIDGE_SUCCESS,
   RECEIVE_BRIDGE_ERROR
-} from 'actions'
+} from '../../../actions'
 
 const initialState = {
   items: {},

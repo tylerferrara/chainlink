@@ -1,9 +1,9 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { receiveSignoutSuccess } from 'actions'
-import Flash from 'components/Flash'
-import Unhandled from 'components/Notifications/UnhandledError'
+import { receiveSignoutSuccess } from '../actions'
+import Flash from '../components/Flash'
+import Unhandled from '../components/Notifications/UnhandledError'
 
 export const Notifications = props => {
   const { errors, successes } = props

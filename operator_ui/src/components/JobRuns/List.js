@@ -9,10 +9,10 @@ import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import Card from '@material-ui/core/Card'
 import TimeAgo from '@chainlink/styleguide/components/TimeAgo'
-import Link from 'components/Link'
 import ReactStaticLinkComponent from '../ReactStaticLinkComponent'
-import Button from 'components/Button'
-import titleize from 'utils/titleize'
+import Link from '../../components/Link'
+import Button from '../../components/Button'
+import titleize from '../../utils/titleize'
 
 const styles = theme => {
   return {

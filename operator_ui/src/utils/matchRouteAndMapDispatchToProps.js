@@ -5,7 +5,7 @@
 // We need to handle this manually. mapDispatchToProps provides the props of
 // the matched URL. We can dispatch this url and parse it in a reducer.
 import { bindActionCreators } from 'redux'
-import { matchRoute } from 'actions'
+import { matchRoute } from '../actions'
 
 export default actionCreators => (dispatch, ownProps) => {
   dispatch(matchRoute(ownProps.match))

@@ -2,7 +2,7 @@ import {
   REQUEST_CONFIGURATION,
   RECEIVE_CONFIGURATION_SUCCESS,
   RECEIVE_CONFIGURATION_ERROR
-} from 'actions'
+} from '../../../actions'
 
 const initialState = {
   config: {},

@@ -8,9 +8,9 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import TablePagination from '@material-ui/core/TablePagination'
 import Typography from '@material-ui/core/Typography'
-import Link from 'components/Link'
-import TableButtons, { FIRST_PAGE } from 'components/TableButtons'
 import { useHooks, useState, useEffect } from 'use-react-hooks'
+import Link from '../../components/Link'
+import TableButtons, { FIRST_PAGE } from '../../components/TableButtons'
 
 const renderBody = (transactions, error) => {
   if (error) {

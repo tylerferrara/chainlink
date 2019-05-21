@@ -6,12 +6,12 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import PaddedCard from '@chainlink/styleguide/components/PaddedCard'
 import KeyValueList from '@chainlink/styleguide/components/KeyValueList'
-import Content from 'components/Content'
-import DeleteJobRuns from 'containers/Configuration/DeleteJobRuns'
-import { fetchConfiguration } from 'actions'
-import configsSelector from 'selectors/configs'
-import extractBuildInfo from 'utils/extractBuildInfo'
-import matchRouteAndMapDispatchToProps from 'utils/matchRouteAndMapDispatchToProps'
+import Content from '../../components/Content'
+import DeleteJobRuns from '../../containers/Configuration/DeleteJobRuns'
+import { fetchConfiguration } from '../actions'
+import configsSelector from '../../selectors/configs'
+import extractBuildInfo from '../../utils/extractBuildInfo'
+import matchRouteAndMapDispatchToProps from '../../utils/matchRouteAndMapDispatchToProps'
 
 const buildInfo = extractBuildInfo()
 

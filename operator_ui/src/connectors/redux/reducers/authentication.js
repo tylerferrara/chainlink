@@ -7,7 +7,7 @@ import {
   REQUEST_SIGNOUT,
   RECEIVE_SIGNOUT_SUCCESS,
   RECEIVE_SIGNOUT_ERROR
-} from 'actions'
+} from '../../../actions'
 
 const defaultState = {
   allowed: false,

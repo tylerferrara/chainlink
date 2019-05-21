@@ -1,7 +1,7 @@
 import React from 'react'
-import SuccessIcon from 'components/Icons/Success'
-import ErrorIcon from 'components/Icons/Error'
-import PendingIcon from 'components/Icons/Pending'
+import SuccessIcon from '../../components/Icons/Success'
+import ErrorIcon from '../../components/Icons/Error'
+import PendingIcon from '../../components/Icons/Pending'
 
 const StatusIcon = ({ children, width, height }) => {
   if (children === 'completed') {

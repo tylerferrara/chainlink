@@ -1,4 +1,4 @@
-import { REDIRECT } from 'actions'
+import { REDIRECT } from '../../../actions'
 
 const initialState = {
   count: 0

@@ -7,8 +7,8 @@ import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
-import { fetchJob, createJobRun } from 'actions'
-import Link from 'components/Link'
+import { fetchJob, createJobRun } from '../../actions'
+import Link from '../../components/Link'
 
 const styles = theme => {
   return {
