@@ -108,7 +108,7 @@ describe('End to end', () => {
     await new Promise(resolve => setTimeout(resolve, 500)) // FIXME not sure why we need to wait here
     await pupExpect(page).toMatch(runId)
     await pupExpect(page).toClick('a', { text: runId })
-
+    await scrape(page, /Complete/)
     await pupExpect(page).toMatchElement('h5', { text: 'Complete' })
   })
 })
