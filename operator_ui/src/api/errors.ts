@@ -1,30 +1,24 @@
-export function AuthenticationError(response: Response) {
-  this.errors = [
-    {
-      status: response.status,
-      detail: response.statusText
-    }
-  ]
+export interface ApiError {
+  status: string
+  detail: string
 }
 
-export function BadRequestError({ errors }) {
+export function AuthenticationError(errors: ApiError[]) {
   this.errors = errors
 }
 
-export function ServerError(response: Response) {
-  this.errors = [
-    {
-      status: response.status,
-      detail: response.statusText
-    }
-  ]
+export function BadRequestError(errors: ApiError[]) {
+  this.errors = errors
 }
 
-export function UnknownResponseError(response: Response) {
-  this.errors = [
-    {
-      status: response.status,
-      detail: response.statusText
-    }
-  ]
+export function ServerError(errors: ApiError[]) {
+  this.errors = errors
+}
+
+export function UnknownResponseError(errors: ApiError[]) {
+  this.errors = errors
+}
+
+export function JsonParseError(errors: ApiError[]) {
+  this.errors = errors
 }

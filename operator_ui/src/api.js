@@ -4,15 +4,23 @@ import {
   AuthenticationError,
   BadRequestError,
   ServerError,
-  UnknownResponseError
+  UnknownResponseError,
+  JsonParseError
 } from './api/errors'
 import serializeBridgeType from 'api/serializers/bridgeType'
 
-const formatURI = (path, query = {}) => {
-  return formatRequestURI(path, query, {
-    hostname: global.location.hostname,
-    port: process.env.CHAINLINK_PORT
-  })
+const buildStatusError = response => {
+  return { status: response.status, detail: response.statusText }
+}
+
+const handleInvalidJson = response => {
+  return e => {
+    const error = {
+      status: response.status,
+      detail: 'Could not parse response. The server returned invalid JSON'
+    }
+    throw new JsonParseError([error])
+  }
 }
 
 const parseResponse = response => {
@@ -21,16 +29,33 @@ const parseResponse = response => {
   } else if (response.status >= 200 && response.status < 300) {
     return response.json()
   } else if (response.status === 400) {
-    return response.json().then(json => {
-      throw new BadRequestError(json)
-    })
+    return response
+      .json()
+      .then(json => {
+        throw new BadRequestError(json.errors)
+      })
+      .catch(handleInvalidJson(response))
   } else if (response.status === 401) {
-    throw new AuthenticationError(response)
+    const error = buildStatusError(response)
+    throw new AuthenticationError([error])
   } else if (response.status >= 500) {
-    throw new ServerError(response)
+    return response
+      .json()
+      .then(json => {
+        throw new ServerError(json.errors)
+      })
+      .catch(handleInvalidJson(response))
   } else {
-    throw new UnknownResponseError(response)
+    const error = buildStatusError(response)
+    throw new UnknownResponseError([error])
   }
+}
+
+const formatURI = (path, query = {}) => {
+  return formatRequestURI(path, query, {
+    hostname: global.location.hostname,
+    port: process.env.CHAINLINK_PORT
+  })
 }
 
 const get = (path, query) =>
