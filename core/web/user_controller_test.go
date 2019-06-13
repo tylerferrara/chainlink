@@ -99,3 +99,42 @@ func TestUserController_AccountBalances_Success(t *testing.T) {
 	assert.Equal(t, "0.000000000000000001", second.EthBalance.String())
 	assert.Equal(t, "0.000000000000000001", second.LinkBalance.String())
 }
+
+func TestUserController_AccountBalances_Error(t *testing.T) {
+	t.Parallel()
+
+	appWithAccount, cleanup := cltest.NewApplicationWithKey(t)
+	defer cleanup()
+	appWithAccount.AddUnlockedKey()
+	client := appWithAccount.NewHTTPClient()
+
+	ethMock := appWithAccount.MockEthClient()
+	ethMock.Context("first wallet", func(ethMock *cltest.EthMock) {
+		// ethMock.Register("eth_getBalance", "0x0100")
+		// ethMock.Register("eth_call", "0x0100")
+		panic("Eth node error")
+	})
+	// ethMock.Context("second wallet", func(ethMock *cltest.EthMock) {
+	// 	ethMock.Register("eth_getBalance", "0x01")
+	// 	ethMock.Register("eth_call", "0x01")
+	// })
+
+	resp, cleanup := client.Get("/v2/user/balances")
+	defer cleanup()
+	require.Equal(t, 500, resp.StatusCode)
+
+	// expectedAccounts := appWithAccount.Store.KeyStore.Accounts()
+	// actualBalances := []presenters.AccountBalance{}
+	// err := cltest.ParseJSONAPIResponse(t, resp, &actualBalances)
+	// assert.NoError(t, err)
+
+	// first := actualBalances[0]
+	// assert.Equal(t, expectedAccounts[0].Address.Hex(), first.Address)
+	// assert.Equal(t, "0.000000000000000256", first.EthBalance.String())
+	// assert.Equal(t, "0.000000000000000256", first.LinkBalance.String())
+
+	// second := actualBalances[1]
+	// assert.Equal(t, expectedAccounts[1].Address.Hex(), second.Address)
+	// assert.Equal(t, "0.000000000000000001", second.EthBalance.String())
+	// assert.Equal(t, "0.000000000000000001", second.LinkBalance.String())
+}
