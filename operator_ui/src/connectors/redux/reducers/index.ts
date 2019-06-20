@@ -4,13 +4,13 @@ import authentication from './authentication'
 import bridges from './bridges'
 import configuration from './configuration'
 import create from './create'
+import dashboardIndex, { IState as IDashboardState } from './dashboardIndex'
 import fetching from './fetching'
 import jobRuns from './jobRuns'
 import jobs from './jobs'
-import transactions from './transactions'
 import notifications from './notifications'
 import redirect from './redirect'
-import dashboardIndex, { IState as IDashboardState } from './dashboardIndex'
+import transactions from './transactions'
 import transactionsIndex from './transactionsIndex'
 
 export interface IState {
@@ -23,13 +23,13 @@ const reducer = combineReducers({
   bridges,
   configuration,
   create,
+  dashboardIndex,
   fetching,
   jobRuns,
   jobs,
-  transactions,
   notifications,
   redirect,
-  dashboardIndex,
+  transactions,
   transactionsIndex
 })
 
