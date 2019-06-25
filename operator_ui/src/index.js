@@ -5,7 +5,7 @@ import JavascriptTimeAgo from 'javascript-time-ago'
 import moment from 'moment'
 import en from 'javascript-time-ago/locale/en'
 import { AppContainer } from 'react-hot-loader'
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import { MuiThemeProvider } from '@material-ui/core/styles'
 import theme from '@chainlink/styleguide/theme'
 import App from './App'
 
@@ -19,12 +19,11 @@ export default App
 
 if (typeof document !== 'undefined') {
   const renderMethod = module.hot ? ReactDOM.render : ReactDOM.hydrate
-  const muiTheme = createMuiTheme(theme)
 
   const render = Comp => {
     renderMethod(
       <AppContainer>
-        <MuiThemeProvider theme={muiTheme}>
+        <MuiThemeProvider theme={theme}>
           <Comp />
         </MuiThemeProvider>
       </AppContainer>,

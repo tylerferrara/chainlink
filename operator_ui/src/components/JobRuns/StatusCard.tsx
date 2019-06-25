@@ -14,13 +14,13 @@ import StatusIcon from '../JobRuns/StatusIcon'
 const styles = (theme: Theme) =>
   createStyles({
     completed: {
-      backgroundColor: theme.palette.success.light
+      // backgroundColor: theme.palette.success.light
     },
     errored: {
       backgroundColor: theme.palette.error.light
     },
     pending: {
-      backgroundColor: theme.palette.warning.light
+      // backgroundColor: theme.palette.warning.light
     },
     statusCard: {
       '&:last-child': {
@@ -30,9 +30,6 @@ const styles = (theme: Theme) =>
     head: {
       display: 'flex',
       alignItems: 'center'
-    },
-    statusIcon: {
-      display: 'inline-block'
     },
     statusText: {
       display: 'inline-block',
@@ -47,17 +44,12 @@ interface IProps extends WithStyles<typeof styles> {
 }
 
 const StatusCard = ({ title, classes, children }: IProps) => {
+  const statusClass = classes[title as keyof typeof classes] || classes.pending
+
   return (
-    <PaddedCard
-      className={classNames(
-        classes.statusCard,
-        classes[title] || classes.pending
-      )}
-    >
+    <PaddedCard className={classNames(classes.statusCard, statusClass)}>
       <div className={classes.head}>
-        <StatusIcon className={classes.statusIcon} width={80}>
-          {title}
-        </StatusIcon>
+        <StatusIcon width={80}>{title}</StatusIcon>
         <Typography className={classes.statusText} variant="h5" color="inherit">
           {titleCase(title)}
         </Typography>

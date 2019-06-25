@@ -7,7 +7,11 @@ export function AuthenticationError(response: Response) {
   ]
 }
 
-export function BadRequestError({ errors }) {
+interface IJsonApiError {
+  errors: object
+}
+
+export function BadRequestError({ errors }: IJsonApiError) {
   this.errors = errors
 }
 

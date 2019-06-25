@@ -1,12 +1,13 @@
+import { createMuiTheme } from '@material-ui/core/styles'
 import { common, green, grey } from '@material-ui/core/colors'
 import { darken } from '@material-ui/core/styles/colorManipulator'
 import spacing from '@material-ui/core/styles/spacing'
 
-export default {
+export default createMuiTheme({
   props: {
-    MuiGrid: {
-      spacing: spacing.unit * 3
-    }
+    // MuiGrid: {
+    //   spacing: spacing.unit * 3
+    // }
   },
   palette: {
     action: {
@@ -20,17 +21,17 @@ export default {
     secondary: {
       main: '#3d5170'
     },
-    success: {
-      light: '#F9FFFC',
-      main: green.A700,
-      dark: green['700'],
-      contrastText: common.white
-    },
-    warning: {
-      light: '#FFFBF1',
-      main: '#fff6b6',
-      contrastText: '#fad27a'
-    },
+    // success: {
+    //   light: '#F9FFFC',
+    //   main: green.A700,
+    //   dark: green['700'],
+    //   contrastText: common.white
+    // },
+    // warning: {
+    //   light: '#FFFBF1',
+    //   main: '#fff6b6',
+    //   contrastText: '#fad27a'
+    // },
     error: {
       light: '#ffdada',
       main: '#f44336',
@@ -39,20 +40,20 @@ export default {
     },
     background: {
       default: '#f5f6f8',
-      appBar: '#3c40c6'
+      // appBar: '#3c40c6'
     },
     text: {
       primary: darken(grey['A700'], 0.7),
       secondary: '#818ea3'
     },
-    listPendingStatus: {
-      background: '#fef7e5',
-      color: '#fecb4c'
-    },
-    listCompletedStatus: {
-      background: '#e9faf2',
-      color: '#4ed495'
-    }
+    // listPendingStatus: {
+    //   background: '#fef7e5',
+    //   color: '#fecb4c'
+    // },
+    // listCompletedStatus: {
+    //   background: '#e9faf2',
+    //   color: '#4ed495'
+    // }
   },
   shape: {
     borderRadius: spacing.unit
@@ -67,8 +68,14 @@ export default {
   },
   typography: {
     useNextVariants: true,
-    fontFamily:
-      '-apple-system, BlinkMacSystemFont, "Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      'Roboto',
+      'Helvetica',
+      'Arial',
+      'sans-serif'
+    ].join(','),
     body1: {
       fontSize: '1.0rem',
       fontWeight: 400,
@@ -83,20 +90,20 @@ export default {
       color: 'rgba(0, 0, 0, 0.87)',
       letterSpacing: -0.4
     },
-    body1Next: {
-      color: 'rgb(29, 29, 29)',
-      fontWeight: 400,
-      fontSize: '1rem',
-      lineHeight: 1.5,
-      letterSpacing: -0.4
-    },
-    body2Next: {
-      color: 'rgb(29, 29, 29)',
-      fontWeight: 400,
-      fontSize: '0.875rem',
-      lineHeight: 1.5,
-      letterSpacing: -0.4
-    },
+    // body1Next: {
+    //   color: 'rgb(29, 29, 29)',
+    //   fontWeight: 400,
+    //   fontSize: '1rem',
+    //   lineHeight: 1.5,
+    //   letterSpacing: -0.4
+    // },
+    // body2Next: {
+    //   color: 'rgb(29, 29, 29)',
+    //   fontWeight: 400,
+    //   fontSize: '0.875rem',
+    //   lineHeight: 1.5,
+    //   letterSpacing: -0.4
+    // },
     display1: {
       color: '#818ea3',
       fontSize: '2.125rem',
@@ -214,4 +221,4 @@ export default {
     '0px 11px 14px -7px rgba(0, 0, 0, 0.1),0px 23px 36px 3px rgba(0, 0, 0, 0.04),0px 9px 44px 8px rgba(0, 0, 0, 0.02)',
     '0px 11px 15px -7px rgba(0, 0, 0, 0.1),0px 24px 38px 3px rgba(0, 0, 0, 0.04),0px 9px 46px 8px rgba(0, 0, 0, 0.02)'
   ]
-}
+})

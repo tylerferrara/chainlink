@@ -14,12 +14,7 @@
     "strict": true,
     "esModuleInterop": true
   },
-  "include": [
-    "src/**/*"
-  ],
   "files": [
-    "@types/json-api-normalizer.d.ts",
-    "@types/redux-object.d.ts",
-    "@types/use-react-hooks.d.ts"
+    "@types/react-time-ago.d.ts"
   ]
 }
