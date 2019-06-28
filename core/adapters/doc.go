@@ -62,4 +62,10 @@
 // For example:
 //  {"id":"b8004e2989e24e1d8e4449afad2eb480","data":{}}
 //
+// Random
+//
+// The Random adapter generates a cryptographically secure random uint256
+// number in the interval from 0 to 2**256-1
+//  { "type": "Random" }
+//
 package adapters
