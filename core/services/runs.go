@@ -343,6 +343,11 @@ func updateTaskRunConfirmations(currentHeight *models.Big, jr *models.JobRun, ta
 	}
 
 	confs := blockConfirmations(currentHeight, jr.CreationHeight)
+	if confs.Cmp(big.NewInt(0)) <= 0 { // negative, so floor at 0
+		taskRun.Confirmations = clnull.Uint32From(0)
+		return
+	}
+
 	diff := utils.MinBigs(confs, big.NewInt(int64(taskRun.MinimumConfirmations.Uint32)))
 
 	// diff's ceiling is guaranteed to be MaxUint32 since MinimumConfirmations
