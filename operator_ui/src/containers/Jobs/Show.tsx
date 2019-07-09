@@ -35,15 +35,23 @@ const renderTaskRuns = (job: IJobSpec) => (
   </Card>
 )
 
-const renderLatestRuns = (
-  job: IJobSpec,
-  recentRuns: IJobRuns,
-  recentRunsCount: number,
+interface IRecentJobRunsProps {
+  job: IJobSpec
+  recentRuns: IJobRuns
+  recentRunsCount: number
   showJobRunsCount: number
-) => (
-  <React.Fragment>
+}
+
+const RecentJobRuns = ({
+  job,
+  recentRuns,
+  recentRunsCount,
+  showJobRunsCount
+}: IRecentJobRunsProps) => {
+  return (
     <Card>
       <CardTitle divider>Recent Job Runs</CardTitle>
+
       <JobRunsList
         jobSpecId={job.id}
         runs={recentRuns}
@@ -51,8 +59,8 @@ const renderLatestRuns = (
         showJobRunsCount={showJobRunsCount}
       />
     </Card>
-  </React.Fragment>
-)
+  )
+}
 
 interface IDetailsProps {
   recentRuns: IJobRuns
@@ -71,7 +79,12 @@ const Details = ({
     return (
       <Grid container spacing={24}>
         <Grid item xs={8}>
-          {renderLatestRuns(job, recentRuns, recentRunsCount, showJobRunsCount)}
+          <RecentJobRuns
+            job={job}
+            recentRuns={recentRuns}
+            recentRunsCount={recentRunsCount}
+            showJobRunsCount={showJobRunsCount}
+          />
         </Grid>
         <Grid item xs={4}>
           <Grid container direction="column">
