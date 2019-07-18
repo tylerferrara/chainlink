@@ -22,7 +22,7 @@ require (
 	github.com/gin-contrib/size v0.0.0-20190528085907-355431950c57
 	github.com/gin-gonic/contrib v0.0.0-20190526021735-7fb7810ed2a0
 	github.com/gin-gonic/gin v1.4.0
-	github.com/gobuffalo/envy v1.6.12 // indirect
+	github.com/gobuffalo/packd v0.0.0-20181212173646-eca3b8fd6687 // indirect
 	github.com/gobuffalo/packr v1.21.0
 	github.com/gofrs/flock v0.7.1
 	github.com/golang/mock v1.2.0
@@ -32,9 +32,8 @@ require (
 	github.com/gorilla/websocket v1.4.0
 	github.com/jinzhu/gorm v1.9.10
 	github.com/jpillora/backoff v0.0.0-20170918002102-8eab2debe79d
-	github.com/kr/pty v1.1.3 // indirect
 	github.com/manyminds/api2go v0.0.0-20171030193247-e7b693844a6f
-	github.com/markbates/deplist v1.0.5 // indirect
+	github.com/markbates/oncer v0.0.0-20181203154359-bf2de49a0be2 // indirect
 	github.com/mattn/go-colorable v0.0.9 // indirect
 	github.com/mattn/go-runewidth v0.0.4 // indirect
 	github.com/mitchellh/go-homedir v1.1.0
