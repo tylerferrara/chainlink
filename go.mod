@@ -13,6 +13,8 @@ require (
 	github.com/cespare/cp v1.1.1 // indirect
 	github.com/codegangsta/negroni v1.0.0 // indirect
 	github.com/deckarep/golang-set v1.7.1 // indirect
+	github.com/denisenkom/go-mssqldb v0.0.0-20190515213511-eb9f6a1743f3 // indirect
+	github.com/erikstmartin/go-testdb v0.0.0-20160219214506-8d10e4a1bae5 // indirect
 	github.com/ethereum/go-ethereum v1.8.27
 	github.com/fatih/color v1.7.0
 	github.com/garyburd/redigo v1.6.0 // indirect
@@ -22,6 +24,7 @@ require (
 	github.com/gin-contrib/size v0.0.0-20190528085907-355431950c57
 	github.com/gin-gonic/contrib v0.0.0-20190526021735-7fb7810ed2a0
 	github.com/gin-gonic/gin v1.4.0
+	github.com/go-sql-driver/mysql v1.4.1 // indirect
 	github.com/gobuffalo/packd v0.0.0-20181212173646-eca3b8fd6687 // indirect
 	github.com/gobuffalo/packr v1.21.0
 	github.com/gofrs/flock v0.7.1
@@ -30,12 +33,16 @@ require (
 	github.com/gorilla/securecookie v1.1.1
 	github.com/gorilla/sessions v1.1.3
 	github.com/gorilla/websocket v1.4.0
-	github.com/jinzhu/gorm v1.9.10
+	github.com/jinzhu/gorm v1.9.2
+	github.com/jinzhu/inflection v1.0.0 // indirect
+	github.com/jinzhu/now v1.0.1 // indirect
 	github.com/jpillora/backoff v0.0.0-20170918002102-8eab2debe79d
+	github.com/lib/pq v1.1.1 // indirect
 	github.com/manyminds/api2go v0.0.0-20171030193247-e7b693844a6f
 	github.com/markbates/oncer v0.0.0-20181203154359-bf2de49a0be2 // indirect
 	github.com/mattn/go-colorable v0.0.9 // indirect
 	github.com/mattn/go-runewidth v0.0.4 // indirect
+	github.com/mattn/go-sqlite3 v0.0.0-20190709041054-fba062bdb60d // indirect
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/mrwonko/cron v0.0.0-20180828170130-e0ddd0f7e7db
 	github.com/olekukonko/tablewriter v0.0.1
@@ -62,7 +69,7 @@ require (
 	golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4
 	golang.org/x/sync v0.0.0-20190423024810-112230192c58
 	golang.org/x/text v0.3.1-0.20180807135948-17ff2d5776d2
-	gopkg.in/gormigrate.v1 v1.6.0
+	gopkg.in/gormigrate.v1 v1.2.1
 	gopkg.in/guregu/null.v2 v2.1.2 // indirect
 	gopkg.in/guregu/null.v3 v3.4.0
 	gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce // indirect
