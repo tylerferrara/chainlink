@@ -272,15 +272,15 @@ const handleError = (dispatch: Dispatch) => (error: Error) => {
 
 const request = (
   type: string,
-  requestData: any,
-  normalizeData: any,
+  apiCall: any,
+  normalizer: any,
   ...apiArgs: any
 ) => {
   return (dispatch: Dispatch) => {
     dispatch({ type: `REQUEST_${type}` })
-    return requestData(...apiArgs)
+    return apiCall(...apiArgs)
       .then((json: object) => {
-        const data = normalizeData(json)
+        const data = normalizer(json)
         dispatch({ type: `UPSERT_${type}`, data: data })
       })
       .catch(handleError(dispatch))
