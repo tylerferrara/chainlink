@@ -289,14 +289,10 @@ const request = (
 }
 
 export const fetchAccountBalance = () =>
-  request('ACCOUNT_BALANCE', api.getAccountBalance, (json: object) =>
-    normalize(json)
-  )
+  request('ACCOUNT_BALANCE', api.getAccountBalance, normalize)
 
 export const fetchConfiguration = () =>
-  request('CONFIGURATION', api.getConfiguration, (json: object) =>
-    normalize(json)
-  )
+  request('CONFIGURATION', api.getConfiguration, normalize)
 
 export const fetchBridges = (page: number, size: number) =>
   request(
@@ -308,7 +304,7 @@ export const fetchBridges = (page: number, size: number) =>
   )
 
 export const fetchBridgeSpec = (name: string) =>
-  request('BRIDGE', api.getBridgeSpec, (json: object) => normalize(json), name)
+  request('BRIDGE', api.getBridgeSpec, normalize, name)
 
 export const fetchJobs = (page: number, size: number) =>
   request(
@@ -347,7 +343,7 @@ export const fetchRecentJobRuns = (size: number) =>
   )
 
 export const fetchJobRun = (id: string) =>
-  request('JOB_RUN', api.getJobSpecRun, (json: object) => normalize(json), id)
+  request('JOB_RUN', api.getJobSpecRun, normalize, id)
 
 export const deleteCompletedJobRuns = (updatedBefore: object) =>
   request(
@@ -377,9 +373,4 @@ export const fetchTransactions = (page: number, size: number) =>
   )
 
 export const fetchTransaction = (id: string) =>
-  request(
-    'TRANSACTION',
-    api.getTransaction,
-    (json: object) => normalize(json),
-    id
-  )
+  request('TRANSACTION', api.getTransaction, normalize, id)
