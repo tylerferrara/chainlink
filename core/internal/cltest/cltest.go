@@ -104,6 +104,7 @@ func NewConfigWithWSServer(t testing.TB, wsserver *httptest.Server) *TestConfig 
 	rawConfig.Set("MINIMUM_CONTRACT_PAYMENT", minimumContractPayment.Text(10))
 	rawConfig.Set("ROOT", rootdir)
 	rawConfig.Set("SESSION_TIMEOUT", "2m")
+	rawConfig.Set("LOG_SQL", false)
 	rawConfig.SecretGenerator = mockSecretGenerator{}
 	config := TestConfig{t: t, Config: rawConfig}
 	config.SetEthereumServer(wsserver)
