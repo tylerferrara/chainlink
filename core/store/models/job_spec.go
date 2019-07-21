@@ -305,11 +305,11 @@ func (t TaskType) Value() (driver.Value, error) {
 
 // Scan reads the database value and returns an instance.
 func (t *TaskType) Scan(value interface{}) error {
-	temp, ok := value.(string)
+	temp, ok := value.([]byte)
 	if !ok {
 		return fmt.Errorf("Unable to convert %v of %T to TaskType", value, value)
 	}
 
-	*t = TaskType(temp)
+	*t = TaskType(string(temp))
 	return nil
 }

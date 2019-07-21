@@ -114,12 +114,12 @@ func (s RunStatus) Value() (driver.Value, error) {
 
 // Scan reads the database value and returns an instance.
 func (s *RunStatus) Scan(value interface{}) error {
-	temp, ok := value.(string)
+	temp, ok := value.([]byte)
 	if !ok {
 		return fmt.Errorf("Unable to convert %v of %T to RunStatus", value, value)
 	}
 
-	*s = RunStatus(temp)
+	*s = RunStatus(string(temp))
 	return nil
 }
 
@@ -287,12 +287,12 @@ func (w WebURL) Value() (driver.Value, error) {
 
 // Scan reads the database value and returns an instance.
 func (w *WebURL) Scan(value interface{}) error {
-	s, ok := value.(string)
+	s, ok := value.([]byte)
 	if !ok {
 		return fmt.Errorf("Unable to convert %v of %T to WebURL", value, value)
 	}
 
-	u, err := url.ParseRequestURI(s)
+	u, err := url.ParseRequestURI(string(s))
 	if err != nil {
 		return err
 	}
@@ -498,12 +498,12 @@ func (b Big) Value() (driver.Value, error) {
 
 // Scan reads the database value and returns an instance.
 func (b *Big) Scan(value interface{}) error {
-	temp, ok := value.(string)
+	temp, ok := value.([]byte)
 	if !ok {
 		return fmt.Errorf("Unable to convert %v of %T to Big", value, value)
 	}
 
-	decoded, ok := b.setString(temp, 10)
+	decoded, ok := b.setString(string(temp), 10)
 	if !ok {
 		return fmt.Errorf("Unable to set string %v of %T to base 10 big.Int for Big", value, value)
 	}
@@ -548,16 +548,16 @@ func (r AddressCollection) Value() (driver.Value, error) {
 
 // Scan parses the database value as a string.
 func (r *AddressCollection) Scan(value interface{}) error {
-	str, ok := value.(string)
+	b, ok := value.([]byte)
 	if !ok {
 		return fmt.Errorf("Unable to convert %v of %T to AddressCollection", value, value)
 	}
 
-	if len(str) == 0 {
+	if len(b) == 0 {
 		return nil
 	}
 
-	arr := strings.Split(str, ",")
+	arr := strings.Split(string(b), ",")
 	collection := make(AddressCollection, len(arr))
 	for i, a := range arr {
 		collection[i] = common.HexToAddress(a)

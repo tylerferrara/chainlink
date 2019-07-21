@@ -91,12 +91,12 @@ func (s Signature) Value() (driver.Value, error) {
 
 // Scan reads the database value and returns an instance.
 func (s *Signature) Scan(value interface{}) error {
-	temp, ok := value.(string)
+	temp, ok := value.([]byte)
 	if !ok {
 		return fmt.Errorf("Unable to convert %v of %T to Signature", value, value)
 	}
 
-	newSig, err := NewSignature(temp)
+	newSig, err := NewSignature(string(temp))
 	*s = newSig
 	return err
 }

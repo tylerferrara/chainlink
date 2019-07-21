@@ -77,10 +77,10 @@ type Tx struct {
 
 	From     common.Address `gorm:"index;not null"`
 	To       common.Address `gorm:"not null"`
-	Data     []byte         `gorm:"not null"`
-	Nonce    uint64         `gorm:"index;not null"`
-	Value    *Big           `gorm:"type:varchar(78);not null"`
-	GasLimit uint64         `gorm:"not null"`
+	Data     []byte
+	Nonce    uint64 `gorm:"index;not null"`
+	Value    *Big   `gorm:"type:varchar(78);not null"`
+	GasLimit uint64 `gorm:"not null"`
 
 	// TxAttempt fields manually included; can't embed another primary_key
 	Hash        common.Hash `gorm:"not null"`
