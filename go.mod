@@ -45,6 +45,7 @@ require (
 	github.com/rjeczalik/notify v0.9.2 // indirect
 	github.com/rs/cors v1.6.0 // indirect
 	github.com/satori/go.uuid v1.2.0
+	github.com/smartcontractkit/goverage v0.0.0-20180129183030-63ec5ebc96ac // indirect
 	github.com/spf13/afero v1.2.1 // indirect
 	github.com/spf13/viper v1.4.0
 	github.com/stretchr/testify v1.3.1-0.20190712000136-221dbe5ed467
