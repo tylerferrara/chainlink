@@ -20,7 +20,7 @@ export MIN_INCOMING_CONFIRMATIONS=1
 
 export ETH_CHAIN_ID=${ETH_CHAIN_ID=34055}
 
-pushd $SRCROOT >/dev/null
+pushd /root/project >/dev/null
 
 source ./integration/common
 source ./tools/bin/clenv
