@@ -72,12 +72,12 @@ func (a EIP55Address) Value() (driver.Value, error) {
 
 // Scan reads the database value and returns an instance.
 func (a *EIP55Address) Scan(value interface{}) error {
-	temp, ok := value.(string)
+	temp, ok := value.([]byte)
 	if !ok {
 		return fmt.Errorf("Unable to convert %v of %T to EIP55Address", value, value)
 	}
 
-	*a = EIP55Address(temp)
+	*a = EIP55Address(string(temp))
 	return nil
 }
 
@@ -97,12 +97,12 @@ func (c EIP55AddressCollection) Value() (driver.Value, error) {
 
 // Scan reads the database value and returns an instance.
 func (c *EIP55AddressCollection) Scan(value interface{}) error {
-	temp, ok := value.(string)
+	temp, ok := value.([]byte)
 	if !ok {
 		return fmt.Errorf("Unable to convert %v of %T to EIP55AddressCollection", value, value)
 	}
 
-	arr := strings.Split(temp, ",")
+	arr := strings.Split(string(temp), ",")
 	collection := make(EIP55AddressCollection, len(arr))
 	for i, r := range arr {
 		collection[i] = EIP55Address(r)
