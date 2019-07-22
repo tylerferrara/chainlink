@@ -26,12 +26,12 @@ func (t BulkTaskStatus) Value() (driver.Value, error) {
 
 // Scan reads the database value and returns an instance.
 func (t *BulkTaskStatus) Scan(value interface{}) error {
-	temp, ok := value.([]byte)
+	temp, ok := value.(string)
 	if !ok {
 		return fmt.Errorf("Unable to convert %v of %T to BulkTaskStatus", value, value)
 	}
 
-	*t = BulkTaskStatus(string(temp))
+	*t = BulkTaskStatus(temp)
 	return nil
 }
 
@@ -74,16 +74,16 @@ func (r RunStatusCollection) Value() (driver.Value, error) {
 
 // Scan reads the database value and returns an instance.
 func (r *RunStatusCollection) Scan(value interface{}) error {
-	b, ok := value.([]byte)
+	str, ok := value.(string)
 	if !ok {
 		return fmt.Errorf("Unable to convert %v of %T to RunStatusCollection", value, value)
 	}
 
-	if len(b) == 0 {
+	if len(str) == 0 {
 		return nil
 	}
 
-	arr := strings.Split(string(b), ",")
+	arr := strings.Split(str, ",")
 	collection := make(RunStatusCollection, len(arr))
 	for i, r := range arr {
 		collection[i] = RunStatus(r)

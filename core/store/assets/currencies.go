@@ -111,10 +111,10 @@ func (l Link) Value() (driver.Value, error) {
 // Scan reads the database value and returns an instance.
 func (l *Link) Scan(value interface{}) error {
 	switch temp := value.(type) {
-	case []byte:
-		_, ok := l.SetString(string(temp), 10)
+	case string:
+		_, ok := l.SetString(temp, 10)
 		if !ok {
-			return fmt.Errorf("Unable to scan Link string from %s", string(temp))
+			return fmt.Errorf("Unable to scan Link string from %s", temp)
 		}
 		return nil
 	case int64:
