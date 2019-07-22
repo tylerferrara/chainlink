@@ -304,6 +304,29 @@ func TestJobSpecsController_Create_Task_Only(t *testing.T) {
 	assert.Equal(t, expected, string(cltest.ParseResponseBody(t, resp)))
 }
 
+func TestJobSpecsController_Create_PreservesKeys(t *testing.T) {
+	t.Parallel()
+	app, cleanup := cltest.NewApplication(t)
+	defer cleanup()
+	client := app.NewHTTPClient()
+
+	jsonStr := cltest.MustReadFile(t, "testdata/caseinsensitive_param_keys_job.json")
+	resp, cleanup := client.Post("/v2/specs", bytes.NewBuffer(jsonStr))
+	defer cleanup()
+
+	cltest.AssertServerResponse(t, resp, 200)
+
+	// Check Response
+	var j models.JobSpec
+	err := cltest.ParseJSONAPIResponse(t, resp, &j)
+	require.NoError(t, err)
+
+	adapter1, _ := adapters.For(j.Tasks[0], app.Store)
+	httpGet := adapter1.BaseAdapter.(*adapters.HTTPGet)
+	assert.Equal(t, httpGet.GetURL(), "https://web3api.io/api/v1/transactions/gas/predictions")
+	assert.Equal(t, "SOME_API_KEY", httpGet.Headers["x-api-key"][0])
+}
+
 func BenchmarkJobSpecsController_Show(b *testing.B) {
 	app, cleanup := cltest.NewApplication(b)
 	defer cleanup()
@@ -351,6 +374,35 @@ func setupJobSpecsControllerShow(t assert.TestingT, app *cltest.TestApplication)
 	assert.Nil(t, app.Store.CreateJobRun(&jr2))
 
 	return &j
+}
+
+func TestJobSpecsController_Show_PreservesKeys(t *testing.T) {
+	t.Parallel()
+
+	app, cleanup := cltest.NewApplication(t)
+	defer cleanup()
+	client := app.NewHTTPClient()
+
+	jsonStr := cltest.MustReadFile(t, "testdata/caseinsensitive_param_keys_job.json")
+	resp, cleanup := client.Post("/v2/specs", bytes.NewBuffer(jsonStr))
+	defer cleanup()
+
+	cltest.AssertServerResponse(t, resp, 200)
+
+	// Check Response
+	var j models.JobSpec
+	err := cltest.ParseJSONAPIResponse(t, resp, &j)
+	require.NoError(t, err)
+
+	resp, cleanup2 := client.Get("/v2/specs/" + j.ID)
+	defer cleanup2()
+	cltest.AssertServerResponse(t, resp, 200)
+
+	var respJob presenters.JobSpec
+	require.NoError(t, cltest.ParseJSONAPIResponse(t, resp, &respJob))
+	adapter1, _ := adapters.For(respJob.Tasks[0], app.Store)
+	httpGet := adapter1.BaseAdapter.(*adapters.HTTPGet)
+	assert.Equal(t, "SOME_API_KEY", httpGet.Headers["x-api-key"][0])
 }
 
 func TestJobSpecsController_Show_NotFound(t *testing.T) {
