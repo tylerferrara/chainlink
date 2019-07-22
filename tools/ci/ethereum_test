@@ -21,6 +21,7 @@ export MIN_INCOMING_CONFIRMATIONS=1
 export ETH_CHAIN_ID=${ETH_CHAIN_ID=34055}
 
 pushd $SRCROOT >/dev/null
+go mod tidy
 
 source ./integration/common
 source ./tools/bin/clenv
