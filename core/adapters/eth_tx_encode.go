@@ -1,14 +1,12 @@
 package adapters
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/pkg/errors"
 	"github.com/smartcontractkit/chainlink/core/logger"
-	"github.com/smartcontractkit/chainlink/core/store"
 	strpkg "github.com/smartcontractkit/chainlink/core/store"
 	"github.com/smartcontractkit/chainlink/core/store/models"
 	"github.com/smartcontractkit/chainlink/core/utils"
@@ -68,7 +66,7 @@ func getTxEncodeData(e *EthTxEncode, input *models.RunResult) ([]byte, error) {
 		encoding, err := encodeData(types[name.Str].Str, values[name.Str].Str)
 		if err != nil {
 			return nil, errors.Wrap(err,
-				fmt.Sprint("while attempting to encode element %i, %s", idx, name.Str))
+				fmt.Sprintf("while attempting to encode element %d, %s", idx, name.Str))
 		}
 		rv = append(rv, encoding)
 		totalLength += len(encoding)
@@ -76,6 +74,7 @@ func getTxEncodeData(e *EthTxEncode, input *models.RunResult) ([]byte, error) {
 	return utils.ConcatBytes(rv...), nil
 }
 
+// XXX: ``
 func createTxEncodeRunResult(
 	e *EthTxEncode,
 	input *models.RunResult,
@@ -104,7 +103,6 @@ func createTxEncodeRunResult(
 	}
 
 	input.ApplyResult(tx.Hash.String())
-	m
 
 	txAttempt := tx.Attempts[0]
 	logger.Debugw(
@@ -139,80 +137,3 @@ func createTxEncodeRunResult(
 	addReceiptToResult(receipt, input)
 }
 
-func ensureTxRunResult(input *models.RunResult, str *strpkg.Store) {
-	val, err := input.ResultString()
-	if err != nil {
-		input.SetError(err)
-		return
-	}
-
-	hash := common.HexToHash(val)
-	if err != nil {
-		input.SetError(err)
-		return
-	}
-
-	receipt, state, err := str.TxManager.BumpGasUntilSafe(hash)
-	if err != nil {
-		if state == strpkg.Unknown {
-			input.SetError(err)
-			return
-		}
-
-		// We failed to get one of the TxAttempt receipts, so we won't mark this
-		// run as errored in order to try again
-		logger.Warn("EthTx Adapter Perform Resuming: ", err)
-	}
-
-	recordLatestTxHash(receipt, input)
-	if state != strpkg.Safe {
-		input.MarkPendingConfirmations()
-		return
-	}
-
-	addReceiptToResult(receipt, input)
-}
-
-var zero = common.Hash{}
-
-// recordLatestTxHash adds the current tx hash to the run result
-func recordLatestTxHash(receipt *models.TxReceipt, in *models.RunResult) {
-	if receipt == nil || receipt.Unconfirmed() {
-		return
-	}
-	hex := receipt.Hash.String()
-	in.ApplyResult(hex)
-	in.Add("latestOutgoingTxHash", hex)
-}
-
-func addReceiptToResult(receipt *models.TxReceipt, in *models.RunResult) {
-	receipts := []models.TxReceipt{}
-
-	if !in.Get("ethereumReceipts").IsArray() {
-		in.Add("ethereumReceipts", receipts)
-	}
-
-	if err := json.Unmarshal([]byte(in.Get("ethereumReceipts").String()), &receipts); err != nil {
-		logger.Error(fmt.Errorf("EthTx Adapter unmarshaling ethereum Receipts: %v", err))
-	}
-
-	receipts = append(receipts, *receipt)
-	in.Add("ethereumReceipts", receipts)
-	in.CompleteWithResult(receipt.Hash.String())
-}
-
-// IsClientRetriable does its best effort to see if an error indicates one that
-// might have a different outcome if we retried the operation
-func IsClientRetriable(err error) bool {
-	if err == nil {
-		return false
-	}
-
-	if err, ok := err.(net.Error); ok {
-		return err.Timeout() || err.Temporary()
-	} else if errors.Cause(err) == store.ErrPendingConnection {
-		return true
-	}
-
-	return false
-}
