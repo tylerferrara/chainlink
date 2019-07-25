@@ -25,6 +25,7 @@ import (
 	"github.com/smartcontractkit/chainlink/core/logger"
 	"github.com/smartcontractkit/chainlink/core/services"
 	"github.com/smartcontractkit/chainlink/core/store"
+	"github.com/smartcontractkit/chainlink/core/store/config"
 	"github.com/smartcontractkit/chainlink/core/store/models"
 	"github.com/ulule/limiter"
 	mgin "github.com/ulule/limiter/drivers/middleware/gin"
@@ -107,7 +108,7 @@ func rateLimiter(period time.Duration, limit int64) gin.HandlerFunc {
 
 // secureOptions configure security options for the secure middleware, mostly
 // for TLS redirection
-func secureOptions(config store.Config) secure.Options {
+func secureOptions(config config.Depot) secure.Options {
 	return secure.Options{
 		FrameDeny:     true,
 		IsDevelopment: config.Dev(),
@@ -118,7 +119,7 @@ func secureOptions(config store.Config) secure.Options {
 
 // secureMiddleware adds a TLS handler and redirector, to button up security
 // for this node
-func secureMiddleware(config store.Config) gin.HandlerFunc {
+func secureMiddleware(config config.Depot) gin.HandlerFunc {
 	secureMiddleware := secure.New(secureOptions(config))
 	secureFunc := func() gin.HandlerFunc {
 		return func(c *gin.Context) {
@@ -388,7 +389,7 @@ func loggerFunc() gin.HandlerFunc {
 }
 
 // Add CORS headers so UI can make api requests
-func uiCorsHandler(config store.Config) gin.HandlerFunc {
+func uiCorsHandler(config config.Depot) gin.HandlerFunc {
 	c := cors.Config{
 		AllowMethods:     []string{"GET", "POST", "PATCH", "DELETE"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept"},
