@@ -250,6 +250,71 @@ contract Oracle is ChainlinkRequestInterface, OracleInterface, Ownable {
     assert(LinkToken.transfer(msg.sender, _payment));
   }
 
+  /**
+   * @notice Called by the Chainlink node to fulfill requests where the the node
+   * has taken responsibility for abi-encoding the arguments to the fulfillment
+   * function.
+   *
+   * @dev Given params must hash back to the commitment stored from `oracleRequest`.
+   * Will call the callback address' callback function without bubbling up error
+   * checking in a `require` so that the node can get paid.
+   *
+   * @dev The first argument to the fulfillment function must be the _requestId,
+   * as a bytes32. The arguments must be preceded by the _callbackFunctionId.
+   *
+   * @param _requestId The fulfillment request ID that must match the requester's
+   * @param _payment The payment amount that will be released for the oracle (specified in wei)
+   * @param _callbackAddress The callback address to call for fulfillment
+   * @param _callbackFunctionId The callback function ID to use for fulfillment
+   * @param _expiration The expiration that the node should respond by before the requester can cancel
+   * @param _data The abi-encoded data to return to the consuming contract
+   * @return Status if the external call was successful
+   */
+  function fulfullOracleEncodedRequest(
+    uint256 _payment,
+    address _callbackAddress,
+    uint256 _expiration,
+    bytes _data
+  )
+    external
+    onlyAuthorizedNode
+    isValidRequest(_requestId)
+    returns (bool)
+  {
+    // Extract the callback function ID and the request ID from the ABI-encoded
+    // arguments in _data
+    bytes4 callbackFunctionId;
+    bytes32 requestId;
+    assembly {
+      // Since _data is a bytes array, the first word in the binary
+      // representation contains the length. See the encoding of T[] in
+      // https://solidity.readthedocs.io/en/develop/abi-spec.html#formal-specification-of-the-encoding
+      functionSelectorAddress := add(_data, 0x20)
+      callbackFunctionId := functionSelectorAddress
+      // Since the requestId is a constant-length bytes32, it comes immediately
+      // after the functionSelector. See the `baz` binary call data at
+      // https://solidity.readthedocs.io/en/develop/abi-spec.html#examples
+      requestId := add(functionSelectorAddress, 0x4)
+    }
+    bytes32 paramsHash = keccak256(
+      abi.encodePacked(
+        _payment,
+        _callbackAddress,
+        callbackFunctionId,
+        _expiration
+      )
+    );
+    require(commitments[requestId] == paramsHash, "Params do not match request ID");
+    withdrawableTokens = withdrawableTokens.add(_payment);
+    delete commitments[requestId];
+    require(gasleft() >= MINIMUM_CONSUMER_GAS_LIMIT, "Must provide consumer enough gas");
+    // All updates to the oracle's fulfillment should come before calling the
+    // callback(addr+functionId) as it is untrusted.
+    // See: https://solidity.readthedocs.io/en/develop/security-considerations.html#use-the-checks-effects-interactions-pattern
+    return _callbackAddress.call(_data); // solium-disable-line security/no-low-level-calls
+  }
+
+
   // MODIFIERS
 
   /**
