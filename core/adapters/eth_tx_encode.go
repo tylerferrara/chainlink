@@ -61,7 +61,6 @@ func getTxEncodeData(e *EthTxEncode, input *models.RunResult) ([]byte, error) {
 	// Initially assign inputs to array of byte arrays, to avoid lots of array
 	// reallocations during construction of the final return value
 	rv := make([][]byte, len(e.Order))
-	totalLength := 0
 	for idx, name := range e.Order {
 		encoding, err := encodeData(e.Types[name], values[name].Str)
 		if err != nil {
@@ -69,7 +68,6 @@ func getTxEncodeData(e *EthTxEncode, input *models.RunResult) ([]byte, error) {
 				fmt.Sprintf("while attempting to encode element %d, %s", idx, name))
 		}
 		rv = append(rv, encoding)
-		totalLength += len(encoding)
 	}
 	return utils.ConcatBytes(rv...), nil
 }
