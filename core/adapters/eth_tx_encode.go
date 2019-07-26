@@ -22,6 +22,8 @@ type EthTxEncode struct {
 	DataFormat       string                  `json:"format"`
 	GasPrice         *models.Big             `json:"gasPrice" gorm:"type:numeric"`
 	GasLimit         uint64                  `json:"gasLimit"`
+	Types            map[string]string       `json:"types"`
+	Order            []string                `json:"order"`
 }
 
 // Perform creates the run result for the transaction if the existing run result
@@ -55,18 +57,16 @@ func encodeData(typ string, value string) ([]byte, error) {
 // the `types` and `order` fields of the job.
 func getTxEncodeData(e *EthTxEncode, input *models.RunResult) ([]byte, error) {
 	result := input.Result()
-	types := result.Get("types").Map()
-	order := result.Get("order").Array()
 	values := result.Map()
 	// Initially assign inputs to array of byte arrays, to avoid lots of array
 	// reallocations during construction of the final return value
-	rv := make([][]byte, len(order))
+	rv := make([][]byte, len(e.Order))
 	totalLength := 0
-	for idx, name := range(order) {
-		encoding, err := encodeData(types[name.Str].Str, values[name.Str].Str)
+	for idx, name := range e.Order {
+		encoding, err := encodeData(e.Types[name], values[name].Str)
 		if err != nil {
 			return nil, errors.Wrap(err,
-				fmt.Sprintf("while attempting to encode element %d, %s", idx, name.Str))
+				fmt.Sprintf("while attempting to encode element %d, %s", idx, name))
 		}
 		rv = append(rv, encoding)
 		totalLength += len(encoding)
@@ -136,4 +136,3 @@ func createTxEncodeRunResult(
 
 	addReceiptToResult(receipt, input)
 }
-
