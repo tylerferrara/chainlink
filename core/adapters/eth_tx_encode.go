@@ -1,29 +1,34 @@
 package adapters
 
 import (
-	"fmt"
+	"math/big"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/pkg/errors"
-	"github.com/smartcontractkit/chainlink/core/logger"
+
+	"github.com/tidwall/gjson"
+
+	"github.com/ethereum/go-ethereum/accounts/abi"
+	"github.com/ethereum/go-ethereum/common"
+
 	strpkg "github.com/smartcontractkit/chainlink/core/store"
 	"github.com/smartcontractkit/chainlink/core/store/models"
 	"github.com/smartcontractkit/chainlink/core/utils"
-	"gopkg.in/guregu/null.v3"
 )
 
 // EthTx holds the Address to send the result to and the FunctionSelector
 // to execute.
 type EthTxEncode struct {
-	Address          common.Address          `json:"address"`
-	FunctionSelector models.FunctionSelector `json:"functionSelector"`
-	DataPrefix       hexutil.Bytes           `json:"dataPrefix"`
-	DataFormat       string                  `json:"format"`
-	GasPrice         *models.Big             `json:"gasPrice" gorm:"type:numeric"`
-	GasLimit         uint64                  `json:"gasLimit"`
-	Types            map[string]string       `json:"types"`
-	Order            []string                `json:"order"`
+	// Ethereum address of the contract this task calls
+	Address common.Address `json:"address"`
+	// Name of the contract method this task calls
+	MethodName string `json:"methodName"`
+	// Solidity types of the arguments to this method. (Must be primitive types.)
+	// Keys are the argument names in `Order` field
+	Types map[string]string `json:"types"`
+	// Names of the arguments to the method, in appropriate order
+	Order    []string    `json:"order"`
+	GasPrice *models.Big `json:"gasPrice" gorm:"type:numeric"`
+	GasLimit uint64      `json:"gasLimit"`
 }
 
 // Perform creates the run result for the transaction if the existing run result
@@ -35,102 +40,92 @@ func (etx *EthTxEncode) Perform(
 		input.MarkPendingConnection()
 		return input
 	}
-
 	if !input.Status.PendingConfirmations() {
-		createTxEncodeRunResult(etx, &input, store)
+		data, err := getTxEncodeData(etx, &input)
+		if err != nil {
+			input.SetError(errors.Wrap(err, "while constructing EthTx data"))
+			return input
+		}
+		createTxRunResult(etx.Address, etx.GasPrice, etx.GasLimit, data, &input, store)
 		return input
 	}
 	ensureTxRunResult(&input, store)
 	return input
 }
 
-func encodeData(typ string, value string) ([]byte, error) {
-	switch typ {
-	case "uint256":
-		return common.LeftPadBytes(common.HexToHash(value).Bytes(), 32), nil
-	default:
-		return nil, fmt.Errorf("unencodable type: %s", typ)
+// ABI presents the method specified in etx as required by the abi package
+func (etx EthTxEncode) ABI() (*abi.ABI, error) {
+	rv := abi.ABI{}
+	method := abi.Method{}
+	method.Name = etx.MethodName
+	method.Inputs = make([]abi.Argument, len(etx.Order))
+	for idx, argName := range etx.Order {
+		typeName := etx.Types[argName]
+		// TODO(alx): Enable composite types with a parser for the input JSON into
+		// the correct golang types. Then `nil` must be replaced with the components
+		typ, err := abi.NewType(typeName, nil)
+		if err != nil {
+			return nil, errors.Wrapf(
+				err, `bad type for argument %s: %s`, argName, typeName)
+		}
+		method.Inputs[idx] = abi.Argument{Name: argName, Type: typ}
 	}
+	rv.Methods = make(map[string]abi.Method)
+	rv.Methods[method.Name] = method
+	return &rv, nil
 }
 
 // getTxData returns the data to save against the callback encoded according to
 // the `types` and `order` fields of the job.
+//
+// At the time of writing it only uint256 arguments, so the use of the abi
+// package is kind of overkill. Should make more complex method signatures
+// easier in future, though.
 func getTxEncodeData(e *EthTxEncode, input *models.RunResult) ([]byte, error) {
-	result := input.Result()
-	values := result.Map()
-	// Initially assign inputs to array of byte arrays, to avoid lots of array
-	// reallocations during construction of the final return value
-	rv := make([][]byte, len(e.Order))
-	for idx, name := range e.Order {
-		encoding, err := encodeData(e.Types[name], values[name].Str)
-		if err != nil {
-			return nil, errors.Wrap(err,
-				fmt.Sprintf("while attempting to encode element %d, %s", idx, name))
-		}
-		rv = append(rv, encoding)
-	}
-	return utils.ConcatBytes(rv...), nil
-}
-
-// XXX: ``
-func createTxEncodeRunResult(
-	e *EthTxEncode,
-	input *models.RunResult,
-	store *strpkg.Store,
-) {
-	value, err := getTxEncodeData(e, input)
+	abi, err := e.ABI()
 	if err != nil {
-		input.SetError(err)
-		return
+		return nil, errors.Wrapf(err, "could not parse method ABI from %+v", e)
 	}
-
-	data := utils.ConcatBytes(e.FunctionSelector.Bytes(), e.DataPrefix, value)
-	tx, err := store.TxManager.CreateTxWithGas(
-		null.StringFrom(input.CachedJobRunID),
-		e.Address,
-		data,
-		e.GasPrice.ToInt(),
-		e.GasLimit,
-	)
-	if IsClientRetriable(err) {
-		input.MarkPendingConnection()
-		return
-	} else if err != nil {
-		input.SetError(err)
-		return
+	// Extract values in the order specified by e.Order
+	unorderedValues := input.Result()
+	values := make([]interface{}, len(e.Order))
+	for idx, name := range e.Order {
+		switch e.Types[name] {
+		case "uint256":
+			var rawNum *big.Int
+			rawVal := unorderedValues.Get(name)
+			switch rawVal.Type {
+			case gjson.String:
+				rawNum, err = utils.HexToUint256(rawVal.Str)
+				if err != nil {
+					return nil, errors.Wrapf(
+						err, "while casting argument %s for EthTxEncode", name)
+				}
+			case gjson.Number:
+				var accuracy big.Accuracy
+				rawNum, accuracy = big.NewFloat(rawVal.Num).Int(big.NewInt(0))
+				if accuracy != big.Exact {
+					return nil, errors.Errorf(
+						"argument %s is not a whole number, as required for uint256 type",
+						name)
+				}
+			default:
+				return nil, errors.Errorf(
+					"argument %s, which is of uint256 type, is not a number", name)
+			}
+			if rawNum.Cmp(big.NewInt(0)) == -1 {
+				return nil, errors.Errorf(
+					"cannot use negative number for uint256 argument %s", name)
+			}
+			values[idx] = rawNum
+		default:
+			return nil, errors.Errorf(
+				"unimplelmented type for argument %s", name)
+		}
 	}
-
-	input.ApplyResult(tx.Hash.String())
-
-	txAttempt := tx.Attempts[0]
-	logger.Debugw(
-		fmt.Sprintf("Tx #0 checking on-chain state"),
-		"txHash", txAttempt.Hash.String(),
-		"txID", txAttempt.TxID,
-	)
-
-	receipt, state, err := store.TxManager.CheckAttempt(txAttempt, tx.SentAt)
-	if IsClientRetriable(err) {
-		input.MarkPendingConnection()
-		return
-	} else if err != nil {
-		input.SetError(err)
-		return
+	data, err := abi.Pack(e.MethodName, values...)
+	if err != nil {
+		err = errors.Wrapf(err, "while packing %+v into %+v", values, abi)
 	}
-
-	logger.Debugw(
-		fmt.Sprintf("Tx #0 is %s", state),
-		"txHash", txAttempt.Hash.String(),
-		"txID", txAttempt.TxID,
-		"receiptBlockNumber", receipt.BlockNumber.ToInt(),
-		"currentBlockNumber", tx.SentAt,
-		"receiptHash", receipt.Hash.Hex(),
-	)
-
-	if state != strpkg.Safe {
-		input.MarkPendingConfirmations()
-		return
-	}
-
-	addReceiptToResult(receipt, input)
+	return data, err
 }
