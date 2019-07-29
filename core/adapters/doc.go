@@ -82,16 +82,26 @@
 // specified in its `order` parameter. See
 // https://solidity.readthedocs.io/en/v0.5.3/abi-spec.html#formal-specification-of-the-encoding
 // for the serialization format. Currently only uint256's are implemented. E.g.
-//   {
+//
+//   {``
 //     "type": "EthTxEncode",
-//     "types": {"gammaX": "uint256", "gammaY": "uint256", "c": "uint256", "s": "uint256"}
-//     "order": ["gammaX", "gammaY", "c", "s"]
-//     "address": "0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef"
-//     "functionSelector": "0xdeadbeef"
-//     "dataPrefix": "0x1ee7c0de1ee7c0de1ee7c0de1ee7c0de"
+//     "methodName": "verifyVRFProof",
+//     "types": {"gammaX": "uint256", "gammaY": "uint256", "c": "uint256", "s": "uint256"},
+//     "functionSelector": "0x1234"
+//     "order": ["gammaX", "gammaY", "c", "s"],
+//     "address": "0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
 //   }
-// will expect a list containing four uint256's. The input json is expected to
-// have a corresponding list of hex-encoded data in its `result` field such as
+//
+// will expect a list containing four uint256's.
+//
+// The `methodName` field must match the name of the target method on the contract.
+//
+// Only the type uint256 is implemented, for now.
+//
+// Upon use, the json input to an EthTxEncode task is expected to have a
+// corresponding map of argument names to compatible hex-encoded data in its
+// `result` field such as
+//
 //   {
 //     "result": {
 //                 "gammaX": "0xa2e03a05b089db7b79cd0f6655d6af3e2d06bd0129f87f9f2155612b4e2a41d8",
@@ -100,10 +110,18 @@
 //                 "s": "0x2b1049accb1596a24517f96761b22600a690ee5c6b6cadae3fa522e7d95ba338"
 //               }
 //   }
-// This example will call the specified EVM method with the single bytes array
-//   0xa2e03a05b089db7b79cd0f6655d6af3e2d06bd0129f87f9f2155612b4e2a41d8
-//     0a1dadcabf900bdfb6484e9a4390bffa6ccd666a565a991f061faf868cc9fce8
-//     f82b4f9161ab41ae7c11e7deb628024ef9f5e9a0bca029f0ccb5cb534c70be31
-//     2b1049accb1596a24517f96761b22600a690ee5c6b6cadae3fa522e7d95ba338
-// Note the padding `0` prepended to the second value.
+//
+// which will result in a call to
+// `verifyVRFProof(uint256,uint256,uint256,uint256)` at address
+// 0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef, with arguments
+//
+//   verifyVRFProof(
+//     0xa2e03a05b089db7b79cd0f6655d6af3e2d06bd0129f87f9f2155612b4e2a41d8,
+//     0x0a1dadcabf900bdfb6484e9a4390bffa6ccd666a565a991f061faf868cc9fce8,
+//     0xf82b4f9161ab41ae7c11e7deb628024ef9f5e9a0bca029f0ccb5cb534c70be31,
+//     0x2b1049accb1596a24517f96761b22600a690ee5c6b6cadae3fa522e7d95ba338
+//   )
+//
+// The result from EthTxEncode is the hash of the resulting transaction, if it
+// was successfully transmitted, or an error if not.
 package adapters
