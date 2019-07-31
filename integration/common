@@ -44,7 +44,7 @@ install_gethnet() {
 
   title "Installing geth $ethversion..."
   pushd "$ethpath" >/dev/null
-  go install $ethpkg/cmd/geth
+  go get github.com/ethereum/go-ethereum/cmd/geth@v1.8.27
   popd >/dev/null
 }
 
