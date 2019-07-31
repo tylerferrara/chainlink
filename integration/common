@@ -39,12 +39,8 @@ install_gethnet() {
     return
   fi
 
-  export ethpkg=github.com/ethereum/go-ethereum@v1.8.27
-  export ethpath=$GOPATH/pkg/mod/$ethpkg
-
-  title "Installing geth $ethversion..."
-  pushd "$ethpath" >/dev/null
-  go get github.com/ethereum/go-ethereum/cmd/geth@v1.8.27
+  title "Installing geth..."
+  go get github.com/ethereum/go-ethereum/cmd/geth
   popd >/dev/null
 }
 
