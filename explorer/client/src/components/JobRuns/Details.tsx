@@ -146,7 +146,7 @@ const Details = ({ classes, jobRun, etherscanHost }: IProps) => {
               {nodeName}
             </a>
           ) : (
-            {nodeName}
+            { nodeName }
           )}
         </Value>
       </Row>
