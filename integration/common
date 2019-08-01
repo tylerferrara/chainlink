@@ -41,6 +41,7 @@ install_gethnet() {
 
   title "Installing geth..."
   go get github.com/ethereum/go-ethereum/cmd/geth
+  git checkout .
   popd >/dev/null
 }
 
